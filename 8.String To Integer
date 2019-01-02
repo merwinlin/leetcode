@@ -1,0 +1,47 @@
+/**
+     * 主要是解决超出整数范围时怎么处理的问题：
+     * 首先用一个更多位的变量去得到整个str的数值，再拿去和
+     * Integer.MAX_VALUE 与 Integer.MIN_VALUE作比较，
+     * 这里要注意在算result时，在乘以十之前去比较与Integer.MAX_VALUE/10的大小，
+     * 如果大了就没必要乘十了（这里有相等的情况，需要继续比较末位）
+     * 因为str可能很大，最后再乘以-1可能超出了long的范围，数值会变成补码。
+     */
+    public int myAtoi(String str) {
+        if(str == null || str.length() == 0){
+            return 0;
+        }
+        str = str.trim();
+        if(str.length() <= 0){
+            return 0;
+        }
+        char [] chars = str.toCharArray();
+        int i=0;
+        boolean negative = false;
+        if(chars[i] == '-'){
+            negative = true;
+            i++;
+        } else if(chars[i] == '+'){
+            i++;
+        } else if(chars[i] >= '0' && chars[i] <= '9'){
+
+        } else{
+            return 0;
+        }
+        if(i >= chars.length || chars[i] <'0' || chars[i] > '9'){
+            return 0;
+        }
+        long result = chars[i]-48;
+        i++;
+        while(i<chars.length && chars[i] >= '0' && chars[i] <= '9'){
+            if(result > Integer.MAX_VALUE/10 ||
+                    (result == Integer.MAX_VALUE/10 && (chars[i]-'0') > Integer.MAX_VALUE%10)){
+                return negative?Integer.MIN_VALUE:Integer.MAX_VALUE;
+            }
+            result = result*10 + chars[i]-48;
+            i++;
+        }
+        if(negative){
+            result = result * -1;
+        }
+        return (int)result;
+    }
