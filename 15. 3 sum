@@ -1,0 +1,44 @@
+class Solution {
+    /*
+    * 先定位第一个i，再从后面找出和为0-i的两个数
+    * 主要是考虑排除重复的情况（总共三个地方：i,j,k），还要注意几个写法
+    */
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();//使用ArrayList
+        if(nums == null || nums.length < 3){
+            return result;
+        }
+        Arrays.sort(nums);//先对数组排序,Arrays.sort()
+        for(int i=0;i+2<nums.length;i++){  //从0到length-2
+            if(i==0 || nums[i] != nums[i-1]){ //去重1
+                int first = nums[i];
+                if(first > 0){ //排序后如果最小的就大于零，后面肯定没解
+                    continue;
+                }
+                int remain = 0-first;
+                int j=i+1;
+                int k=nums.length-1;
+                while(j<k){
+                    int second = nums[j];
+                    int third = nums[k];
+                    if(remain == second + third){
+                        result.add(Arrays.asList(new Integer[]{first,second,third}));// 注意写法Arrays.asList(new Integer[]{})
+                        j++;
+                        k--;
+                        while(nums[j] == nums[j-1] && j<k){ //去重2
+                            j++;
+                        }
+                        while(nums[k] == nums[k+1] && j<k){ //去重3
+                            k--;
+                        }
+                    }else if(remain > second + third){
+                        j++;
+                    }else{
+                        k--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
