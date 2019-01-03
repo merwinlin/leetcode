@@ -18,10 +18,15 @@ class Solution {
         for(int i=0; i<intervals.size()-1;){
             Interval a = intervals.get(i);
             Interval b = intervals.get(i+1);
-            if(a.start <= b.start && a.end < b.end && a.end >= b.start){
+            /* 排序之后只有三种比较情况
+             * ab有交界，a包含b,所以删掉b
+             * ab有交界，a不能包含b，所以修改b，删除a
+             * ab无交界，指针后移
+             */
+            if(a.end < b.end && a.end >= b.start){
                 intervals.get(i+1).start = intervals.get(i).start;
                 intervals.remove(i);
-            }else if(a.start <= b.start && a.end >= b.end){
+            }else if(a.end >= b.end){
                 intervals.remove(i+1);
             }else{
                 i++;
