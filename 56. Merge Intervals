@@ -1,0 +1,33 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ * 主要是要记住List的sort写法，需要重写比较器Comparator,o1-o2是升序，o2-o1是降序
+ */
+class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        Collections.sort(intervals,new Comparator<Interval>(){
+            public int compare(Interval o1, Interval o2){
+                return o1.start - o2.start;
+            }
+        });
+        for(int i=0; i<intervals.size()-1;){
+            Interval a = intervals.get(i);
+            Interval b = intervals.get(i+1);
+            if(a.start <= b.start && a.end < b.end && a.end >= b.start){
+                intervals.get(i+1).start = intervals.get(i).start;
+                intervals.remove(i);
+            }else if(a.start <= b.start && a.end >= b.end){
+                intervals.remove(i+1);
+            }else{
+                i++;
+            }
+        }
+        return intervals;
+    }
+    
+}
