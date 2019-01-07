@@ -1,0 +1,53 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> words = new HashSet<>(wordList);
+        Set<String> set = new HashSet<>();
+        set.add(beginWord);
+        int length=1;
+        while(!set.contains(endWord)){
+            Set<String> tem = new HashSet<>();
+            /**
+             * https://www.jianshu.com/p/753bd585d57e
+             * 下面是判断邻居节点，对于要循环的单词，每改变一个子母，判断字典里是否存在
+             */
+            for(String word:set){
+                for(int i=0;i<word.length();i++){
+                    char[] chars = word.toCharArray();//放这里防止前面的子母最后被设为z
+                    for(int j='a';j<='z';j++){
+                        chars[i] = (char)j;
+                        String str = new String(chars);
+                        if(words.contains(str)){
+                            tem.add(str);
+                            words.remove(str);
+                        }
+                    }
+                }
+            }
+            if(tem.size() == 0){
+                return 0;
+            }
+            length++;
+            set = tem;//更新set
+        }
+        return length;
+    }
+
+    public static void main(String[] args){
+        Solution s = new Solution();
+        List<String> list = new ArrayList<>();
+        list.add("hot");
+        list.add("dot");
+        list.add("dog");
+        list.add("lot");
+        list.add("log");
+        list.add("cog");
+        System.out.println(s.ladderLength("hit","cog",list));
+
+    }
+
+}
