@@ -1,0 +1,24 @@
+/* 递归回溯，其实不是很理解； */
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        if(n <=0){
+            return null;
+        }
+        List<String> res = new ArrayList<>();
+        generate(res,"",n,n);
+        return res;
+    }
+    
+    public void generate(List<String> res, String s, int left, int right){
+        if(left == 0 && right == 0){
+            res.add(s);
+            return;
+        }
+        if(left > 0){
+            generate(res,s+"(",left-1,right);
+        }
+        if(right > left){
+            generate(res,s+")",left,right-1);
+        }
+    }
+}
