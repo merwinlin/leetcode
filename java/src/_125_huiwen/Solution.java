@@ -1,5 +1,9 @@
 package _125_huiwen;
 
+
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+
 /**
  * 注意两点：
  * 1.toLowerCase 不改变原有的字符串
@@ -29,7 +33,14 @@ class Solution {
     }
 
     public static void main(String[] args) {
-        Solution s = new Solution();
-        System.out.println(s.isPalindrome("A man, a plan, a canal: Panama"));
+        //Solution s = new Solution();
+        //System.out.println(s.isPalindrome("A man, a plan, a canal: Panama"));
+        ThreadLocal<String> localName = new ThreadLocal<>();
+        localName.set("merwin");
+        localName.remove();
+        System.out.println(localName.get());
+
+
+
     }
 }
