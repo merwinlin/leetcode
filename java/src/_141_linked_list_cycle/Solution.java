@@ -1,22 +1,21 @@
 package _141_linked_list_cycle;
 
 /**
- * Created by Administrator on 2019/4/30.
+ * 快指针始终在慢指针前面，只需判断fast!=null && fast.next!=null
  */
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        ListNode fast,slow;
-        if(head == null || head.next == null){
+        if(head==null || head.next== null){
             return false;
         }
-        fast = head;
-        slow = head;
-        while(fast.next != null && fast.next.next != null){
-            fast = fast.next.next;
-            slow = slow.next;
-            if(fast == slow){
+        ListNode a = head.next;
+        ListNode b = head.next.next;
+        while(b!=null && b.next != null){
+            if(a == b){
                 return true;
             }
+            a = a.next;
+            b = b.next.next;
         }
         return false;
     }
